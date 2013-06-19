@@ -20,9 +20,12 @@ describe Chef::Knife::Cloud::Command do
 
   it "Should run with correct method calls" do
     @instance = Chef::Knife::Cloud::Command.new('app', 'service')
-    @instance.should_receive(:validate!)
-    @instance.should_receive(:custom_arguments)
     @instance.stub(:exec_command)
+    @instance.should_receive(:validate!).ordered
+    @instance.should_receive(:before_handler).ordered
+    @instance.should_receive(:exec_command).ordered
+    @instance.should_receive(:after_handler).ordered
+    @instance.should_receive(:custom_arguments).ordered
     @instance.run
   end
 
