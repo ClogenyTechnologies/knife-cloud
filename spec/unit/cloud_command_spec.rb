@@ -7,7 +7,7 @@ require 'chef/knife/cloud/command'
 describe Chef::Knife::Cloud::Command do
 
   it "Should ask for compulsory properties to be set" do
-    expect {Chef::Knife::Cloud::Command.new}.to raise_error
+    expect {Chef::Knife::Cloud::Command.new}.to raise_error(ArgumentError)
   end
 
   it "Should create instance with correct params" do
