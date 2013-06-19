@@ -11,11 +11,11 @@ describe Chef::Knife::Cloud::ServerCreateCommand do
     @instance = Chef::Knife::Cloud::ServerCreateCommand.new(@app, @service)
   end
 
-  it "should ask for compulsory properties to be set" do
+  it "asks for compulsory properties while creating instance" do
     expect {Chef::Knife::Cloud::ServerCreateCommand.new}.to raise_error(ArgumentError)
   end
 
-  it "should run with correct method calls" do
+  it "runs with correct method calls" do
     @instance.stub(:create_server_dependencies)
     @instance.stub(:create)
     @instance.stub(:bootstrap)
@@ -29,7 +29,7 @@ describe Chef::Knife::Cloud::ServerCreateCommand do
     @instance.run
   end
 
-  it "should delete_server_dependencies on failure creating server" do
+  it "calls delete_server_dependencies when failure in creating server" do
     @instance.stub(:create_server_dependencies)
     @instance.stub(:create).and_raise(Chef::Knife::Cloud::CloudExceptions::ServerCreateError)
 
@@ -38,7 +38,7 @@ describe Chef::Knife::Cloud::ServerCreateCommand do
     expect {@instance.run}.to raise_error(Chef::Knife::Cloud::CloudExceptions::ServerCreateError)
   end
 
-  it "should delete_server_dependencies on failure creating server dependencies" do
+  it "call delete_server_dependencies when failure in creating server dependencies" do
     @instance.stub(:create_server_dependencies).and_raise(Chef::Knife::Cloud::CloudExceptions::ServerCreateDependenciesError)
     @instance.stub(:create)
 
@@ -47,16 +47,16 @@ describe Chef::Knife::Cloud::ServerCreateCommand do
     expect {@instance.run}.to raise_error(Chef::Knife::Cloud::CloudExceptions::ServerCreateDependenciesError)
   end
 
-  it "should raise exception to override create_server_dependencies" do
+  it "raises exception to override create_server_dependencies" do
     expect {@instance.run}.to raise_error(Chef::Exceptions::Override, "You must override create_server_dependencies in #{@instance.to_s} to create dependencies required for server creation.")
   end
 
-  it "should raise exception to override create server method" do
+  it "raises exception to override create server method" do
     @instance.stub(:create_server_dependencies)
     expect {@instance.run}.to raise_error(Chef::Exceptions::Override, "You must override create in #{@instance.to_s} for server creation.")
   end
 
-  it "should raise exception to override delete_server_dependencies" do
+  it "raises exception to override delete_server_dependencies" do
     expect {@instance.delete_server_dependencies}.to raise_error(Chef::Exceptions::Override, "You must override delete_server_dependencies in #{@instance.to_s} to remove dependencies created before server creation.")
   end
 
