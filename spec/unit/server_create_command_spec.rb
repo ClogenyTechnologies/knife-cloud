@@ -5,13 +5,17 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'chef/knife/cloud/server/create_command'
 
 describe Chef::Knife::Cloud::ServerCreateCommand do
+  before do
+    @app = App.new
+    @service = Object.new
+    @instance = Chef::Knife::Cloud::ServerCreateCommand.new(@app, @service)
+  end
 
   it "Should ask for compulsory properties to be set" do
     expect {Chef::Knife::Cloud::ServerCreateCommand.new}.to raise_error(ArgumentError)
   end
 
   it "Should run with correct method calls" do
-    @instance = Chef::Knife::Cloud::ServerCreateCommand.new('app', 'service')
     @instance.stub(:create_server_dependencies)
     @instance.stub(:create)
     @instance.should_receive(:validate!).ordered
@@ -32,7 +36,6 @@ describe Chef::Knife::Cloud::ServerCreateCommand do
   end
 
   it "Should delete_server_dependencies on failure executing command" do
-    @instance = Chef::Knife::Cloud::ServerCreateCommand.new('app', 'service')
     @instance.stub(:create_server_dependencies)
     @instance.stub(:create).and_raise(Chef::Knife::Cloud::CloudExceptions::ServerCreateError)
 
