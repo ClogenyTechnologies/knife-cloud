@@ -60,7 +60,4 @@ describe Chef::Knife::Cloud::ServerCreateCommand do
     expect {@instance.delete_server_dependencies}.to raise_error(Chef::Exceptions::Override, "You must override delete_server_dependencies in #{@instance.to_s} to remove dependencies created before server creation.")
   end
 
-  it "" do
-
-  end
-end
+ end
