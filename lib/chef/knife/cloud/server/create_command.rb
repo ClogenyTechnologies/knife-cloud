@@ -61,4 +61,8 @@ class Chef
       end # class ServerCreateCommand
     end
   end
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> origin/muktaa-oc-8566-base-classes
