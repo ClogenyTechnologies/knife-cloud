@@ -59,9 +59,6 @@ class Chef
             raise CloudExceptions::ServerCreateError, message
           end
 
-          msg_pair("Instance Name", server.name)
-          msg_pair("Instance ID", server.id)
-
           print "\n#{ui.color("Waiting for server [wait time = #{options[:server_create_timeout]}]", :magenta)}"
 
           # wait for it to be ready to do stuff
