@@ -1,5 +1,6 @@
 #
 # Author:: Kaustubh Deorukhkar (<kaustubh@clogeny.com>)
+# Author:: Prabhu Das (<prabhu.das@clogeny.com>)
 # Copyright:: Copyright (c) 2013 Opscode, Inc.
 #
 
@@ -46,6 +47,7 @@ class Chef
         # cloud server specific implementation methods for commands.
         def create_server(options = {})
           begin
+            add_custom_attributes(options[:server_def])
             server = connection.servers.create(options[:server_def])
           rescue Excon::Errors::BadRequest => e
             response = Chef::JSONCompat.from_json(e.response.body)
@@ -121,6 +123,7 @@ class Chef
         def add_api_endpoint
           raise Chef::Exceptions::Override, "You must override add_api_endpoint in #{self.to_s} to add endpoint in auth_params for connection"
         end
+
       end
     end
   end
